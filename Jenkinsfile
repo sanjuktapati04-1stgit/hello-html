@@ -1,5 +1,8 @@
 pipeline {
   agent any
+  environment {
+    TOMCAT_WEBAPPS_DIR = '/mnt/tomcat/webapps/ROOT'
+  }
   stages {
     stage('Checkout') {
       steps { checkout scm }
@@ -18,6 +21,20 @@ pipeline {
     }
     stage('Archive') {
       steps { archiveArtifacts artifacts: 'site.tar.gz', fingerprint: true }
+    }
+    stage('Deploy') {
+      steps {
+        sh '''
+          test -d "$TOMCAT_WEBAPPS_DIR" || {
+            echo "Tomcat webapps directory is not available: $TOMCAT_WEBAPPS_DIR"
+            exit 1
+          }
+          mkdir -p deploy
+          tar -xzf site.tar.gz -C deploy
+          test -f deploy/build/helloworld.html
+          cp -a deploy/build/. "$TOMCAT_WEBAPPS_DIR/"
+        '''
+      }
     }
   }
   post {
