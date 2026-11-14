@@ -7,10 +7,9 @@
   <style>
     html, body {
       margin: 0;
-      height: 100%;
+      min-height: 100%;
       font-family: Arial, sans-serif;
-      background: #ffffff;
-      color: #111111;
+      color: #ffffff;
     }
 
     body {
@@ -18,30 +17,81 @@
       align-items: center;
       justify-content: center;
       min-height: 100vh;
+      background: linear-gradient(-45deg, #6a11cb, #2575fc, #ff6a88, #ffb347);
+      background-size: 400% 400%;
+      animation: gradient-shift 12s ease infinite;
     }
 
     .hello-box {
       padding: 40px 60px;
-      border: 2px solid #111111;
-      background: #f9f9f9;
+      border: 2px solid rgba(255, 255, 255, 0.75);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(10px);
       text-align: center;
-      box-shadow: 0 0 0 4px #eeeeee;
+      box-shadow: 0 20px 50px rgba(28, 16, 74, 0.3);
+      animation: float-in 700ms ease-out both, bob 4s ease-in-out 700ms infinite;
     }
 
     h1 {
       margin: 0;
-      font-size: 2.5rem;
-      letter-spacing: 1px;
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, #fff176, #ffffff, #80deea, #fff176);
+      background-size: 200% auto;
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: text-shine 4s linear infinite;
+    }
+
+    @keyframes gradient-shift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    @keyframes float-in {
+      from { opacity: 0; transform: translateY(24px) scale(0.94); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes bob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes text-shine {
+      to { background-position: 200% center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
     }
 
     @media print {
       body {
         background: #fff;
+        color: #111;
+        animation: none;
       }
 
       .hello-box {
         border: 1px solid #000;
+        border-radius: 0;
+        background: #fff;
+        color: #111;
         box-shadow: none;
+        animation: none;
+      }
+
+      h1 {
+        background: none;
+        color: #111;
+        animation: none;
       }
     }
   </style>
