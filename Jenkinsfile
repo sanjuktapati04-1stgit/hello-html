@@ -32,7 +32,7 @@ pipeline {
           mkdir -p deploy
           tar -xzf site.tar.gz -C deploy
           test -f deploy/build/helloworld.html
-          cp -a deploy/build/. "$TOMCAT_WEBAPPS_DIR/"
+          cp -r deploy/build/. "$TOMCAT_WEBAPPS_DIR/"
         '''
       }
     }
